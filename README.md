@@ -5,7 +5,7 @@ markdownで記述した漢字テストをpdf出力するCLI
 - テンプレート作成
 - - python KanjipaperGen.py init
 - pdf生成
-- - python KanjipaperGen.py conv -i [input] -o [output]
+- - python KanjipaperGen.py conv -i [input] -o [output] -img
 
 ### Other
 以下のコマンドで自作コマンド化  
