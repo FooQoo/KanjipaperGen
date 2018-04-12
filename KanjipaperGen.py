@@ -1,7 +1,6 @@
 import markdown
 from bottle import TEMPLATE_PATH, jinja2_template as template
 import pdfkit
-import sys
 import os
 import argparse
 
@@ -19,7 +18,7 @@ class KanjipaperGen:
         with open('templete.md',mode='w') as f:
             f.write(sample)
 
-    def ConvMDtoHTML(self,file):
+    def ConvMDintoHTML(self,file):
         with open(file,mode='r') as f:
             doc = f.readlines()
 
@@ -38,30 +37,36 @@ class KanjipaperGen:
          }
         pdfkit.from_string(self.html, file, options=options)
 
-def ConvMDtoPDF(args):
+def ConvMDintoPDF(args):
     kpg = KanjipaperGen()
-    kpg.ConvMDtoHTML(args.input)
+    kpg.ConvMDintoHTML(args.input)
     kpg.GenPDF(args.output)
 
 def GenMDtpl(args):
     kpg = KanjipaperGen()
     kpg.GenMDtpl()
+    print('Generate templete')
 
 def main():
+    usage = 'Usage: python {}  [--input <file>] [--output <file>] [--help]'\
+            .format(__file__)
 
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers()
 
-    init_parser = subparsers.add_parser('init')
+    init_parser = subparsers.add_parser('init',help='generate templete')
     init_parser.set_defaults(func=GenMDtpl)
 
-    conv_parser = subparsers.add_parser('conv')
-    conv_parser.add_argument('-i', '--input',default='templete.md')
-    conv_parser.add_argument('-o', '--output',default='out.pdf')
-    conv_parser.set_defaults(func=ConvMDtoPDF)
+    conv_parser = subparsers.add_parser('conv',help='convert Markdown into pdf')
+    conv_parser.add_argument('-i', '--input', nargs='?', default='templete.md',help='input filename')
+    conv_parser.add_argument('-o', '--output',nargs='?', default='out.pdf',help='output filename')
+    conv_parser.set_defaults(func=ConvMDintoPDF)
 
     args = parser.parse_args()
-    args.func(args)
+    if hasattr(args, 'func'):
+        args.func(args)
+    else:
+        parser.print_help()
 
 if __name__ == '__main__':
     main()
