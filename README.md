@@ -8,10 +8,10 @@ markdownで記述した漢字テストをpdf出力するCLI
 - - python KanjipaperGen.py conv -i [input] -o [output]
 
 ### Other
-以下のコマンドで自作コマンド化
+以下のコマンドで自作コマンド化  
 pip install -e .
 
 ### install requirement
-apt-get install wkhtmltopdf
-pip install markdown
-pip install pdfkit
+apt-get install wkhtmltopdf  
+pip install markdown  
+pip install pdfkit  
