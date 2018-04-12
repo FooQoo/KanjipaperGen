@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>KanjipaperGen</title>
-  <style> body { font-size: 6em; } </style>
+  <style> body { font-size: 5em; } </style>
 </head>
 <body>
   <div>
@@ -14,6 +14,6 @@
   <br>
   {{c}}
   <br>
-  <img border="0" src="/users/satoshifukuyama/App/KanjipaperGen/static/img/Chick.png" width="100%">
+  <img border="0" {{hidden}} src="/users/satoshifukuyama/App/KanjipaperGen/static/img/Chick.png" width="100%">
 </body>
 </html>

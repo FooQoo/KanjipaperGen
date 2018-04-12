@@ -13,18 +13,18 @@ class KanjipaperGen:
         self.html = ''
 
     def GenMDtpl(self):
-        sample = '## Q1.\nA.  B.  C.  D. \n## Q2. \nA.  B.  C.  D. \n## Q3.\nA.  B.  C.  D.\n## Q4.\nA.  B.  C.  D.\n## Q5.　\nA.  B.  C.  D.'
+        sample = '### Q1.\nA.  B.  C.  D. \n### Q2. \nA.  B.  C.  D. \n### Q3.\nA.  B.  C.  D.\n### Q4.\nA.  B.  C.  D.\n### Q5.　\nA.  B.  C.  D.'
 
         with open('templete.md',mode='w') as f:
             f.write(sample)
 
-    def ConvMDintoHTML(self,file):
+    def ConvMDintoHTML(self,file,image):
         with open(file,mode='r') as f:
             doc = f.readlines()
 
         md = ''.join(doc)
         body = self.md.convert(md)
-        self.html = template('base',c=body)
+        self.html = template('base',c=body,hidden='' if image else 'hidden')
 
     def GenPDF(self,file):
         options = {
@@ -39,7 +39,7 @@ class KanjipaperGen:
 
 def ConvMDintoPDF(args):
     kpg = KanjipaperGen()
-    kpg.ConvMDintoHTML(args.input)
+    kpg.ConvMDintoHTML(args.input,args.image)
     kpg.GenPDF(args.output)
 
 def GenMDtpl(args):
@@ -60,6 +60,8 @@ def main():
     conv_parser = subparsers.add_parser('conv',help='convert Markdown into pdf')
     conv_parser.add_argument('-i', '--input', nargs='?', default='templete.md',help='input filename')
     conv_parser.add_argument('-o', '--output',nargs='?', default='out.pdf',help='output filename')
+    conv_parser.add_argument('-img', '--image',nargs='?', help='add imagefile', const=True, default=False )
+
     conv_parser.set_defaults(func=ConvMDintoPDF)
 
     args = parser.parse_args()
